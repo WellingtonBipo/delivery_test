@@ -1,3 +1,5 @@
+import 'package:delivery_test/views/app_routes.dart';
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,11 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return const DSThemeProvider(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: AppRoutes.onGenerateRoute,
       ),
     );
   }
