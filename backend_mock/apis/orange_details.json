@@ -1,0 +1,21 @@
+{
+    "title": "Sweet Lime Orange",
+    "shop": "Shop: Alisha Mart",
+    "details": "More commonly known as an orange, the citrus fruit is one of the most popular fruits worldwide. It is so named for its vibrant, bright orange color and the way its segments are neatly enclosed within a smooth, round rind.",
+    "price": 4.00,
+    "old_price": 6.00,
+    "tags": [
+        {
+            "id": 1,
+            "text": "Gluten Free",
+            "image_url": "",
+            "color": "#c3f1f4"
+        },
+        {
+            "id": 3,
+            "text": "Sugar Free",
+            "image_url": "",
+            "color": "#f4f3c2"
+        }
+    ]
+}

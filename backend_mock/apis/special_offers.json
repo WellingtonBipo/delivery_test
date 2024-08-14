@@ -1,0 +1,14 @@
+[
+    {
+        "id": "orange_details",
+        "text": "Sweet Lime Orange",
+        "rate": 4.3,
+        "image_url": ""
+    },
+    {
+        "id": "cabbage_details",
+        "text": "Organic Fresh Green Cabbage",
+        "rate": 4.5,
+        "image_url": ""
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "id":  1,
+        "text": "Vegan",
+        "image_url": ""
+    },
+    {
+        "id":  2,
+        "text": "Meat",
+        "image_url": ""
+    },
+    {
+        "id":  3,
+        "text": "Fruits",
+        "image_url": ""
+    },
+    {
+        "id":  4,
+        "text": "Milk",
+        "image_url": ""
+    },
+    {
+        "id":  5,
+        "text": "Fish",
+        "image_url": ""
+    },
+    {
+        "id":  6,
+        "text": "Drinks",
+        "image_url": ""
+    },
+    {
+        "id":  7,
+        "text": "Dessert",
+        "image_url": ""
+    },
+    {
+        "id":  8,
+        "text": "Bread",
+        "image_url": ""
+    }
+]
