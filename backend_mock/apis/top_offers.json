@@ -1,0 +1,21 @@
+[
+    {
+        "header": "Top deal!",
+        "title": "FRESH AVOCADO\nUP TO 15% OFF",
+        "color_hex": "#f3f5de",
+        "button_text": "Shop Now",
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/promo_1.png"
+    },
+    {
+        "title": "RED STRAWBERRY\nUP TO 10% OFF",
+        "color_hex": "#f5dede",
+        "button_text": "Enjoy Now",
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/promo_2.png"
+    },
+    {
+        "title": "GRAPE\nUP TO 10% OFF",
+        "color_hex": "#eddef5",
+        "button_text": "Enjoy Now",
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/promo_3.png"
+    }
+]

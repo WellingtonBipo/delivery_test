@@ -1,42 +1,37 @@
 [
     {
-        "id":  1,
+        "id": 1,
         "text": "Vegan",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_vegan.png"
     },
     {
-        "id":  2,
+        "id": 2,
         "text": "Meat",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_meat.png"
     },
     {
-        "id":  3,
+        "id": 3,
         "text": "Fruits",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_fruits.png"
     },
     {
-        "id":  4,
+        "id": 4,
         "text": "Milk",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_milk.png"
     },
     {
-        "id":  5,
-        "text": "Fish",
-        "image_url": ""
-    },
-    {
-        "id":  6,
+        "id": 5,
         "text": "Drinks",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_drinks.png"
     },
     {
-        "id":  7,
+        "id": 6,
         "text": "Dessert",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_dessert.png"
     },
     {
-        "id":  8,
+        "id": 7,
         "text": "Bread",
-        "image_url": ""
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/category_bread.png"
     }
 ]

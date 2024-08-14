@@ -1,14 +1,16 @@
 [
     {
-        "id": "orange_details",
+        "id": "orange",
         "text": "Sweet Lime Orange",
         "rate": 4.3,
-        "image_url": ""
+        "color_hex": "#fef4de",
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/orange_1.png"
     },
     {
-        "id": "cabbage_details",
+        "id": "cabbage",
         "text": "Organic Fresh Green Cabbage",
         "rate": 4.5,
-        "image_url": ""
+        "color_hex": "#e7fede",
+        "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/cabbage_1.png"
     }
 ]
