@@ -1,3 +1,4 @@
+import 'package:design_system/atoms/shimmer/ds_shimmer.dart';
 import 'package:design_system/ds_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,44 +8,102 @@ class DSText extends StatelessWidget {
     this.text, {
     this.typography,
     this.color,
+    this.overflow,
+    this.softWrap,
+    this.textAlign,
+    this.isLoading = false,
     super.key,
   });
+
   final String text;
   final Color? color;
   final DSTextTypography? typography;
+  final TextOverflow? overflow;
+  final bool? softWrap;
+  final TextAlign? textAlign;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
+    final color = this.color ?? DSTheme.of(context).colors.textPrimary;
+    final typography = this.typography ?? const DSTextTypography.body();
+
+    if (isLoading) {
+      final size = typography.textWidgetSize(context, text: text);
+      return DSShimmer(
+        enabled: isLoading,
+        child: Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+      );
+    }
     return Text(
       text,
-      style: (typography ?? DSTextTypography.body())
-          ._toStyle(color ?? DSTheme.of(context).colors.textPrimary),
+      overflow: overflow,
+      softWrap: softWrap,
+      textAlign: textAlign,
+      style: typography.toTextStyle(color),
     );
   }
 }
 
 class DSTextTypography {
-  DSTextTypography.small()
-      : _fontSize = 12,
-        _fontWeight = FontWeight.normal;
-
-  DSTextTypography.smallSemiBold()
+  const DSTextTypography.content()
       : _fontSize = 12,
         _fontWeight = FontWeight.w600;
 
-  DSTextTypography.body()
+  const DSTextTypography.body()
       : _fontSize = 14,
         _fontWeight = FontWeight.normal;
+
+  const DSTextTypography.header2()
+      : _fontSize = 18,
+        _fontWeight = FontWeight.w900;
+
+  const DSTextTypography.header3()
+      : _fontSize = 16,
+        _fontWeight = FontWeight.bold;
+
+  const DSTextTypography.header4()
+      : _fontSize = 14,
+        _fontWeight = FontWeight.bold;
+
+  const DSTextTypography.contentTitle1()
+      : _fontSize = 16,
+        _fontWeight = FontWeight.w900;
+
+  const DSTextTypography.contentTitle2()
+      : _fontSize = 14,
+        _fontWeight = FontWeight.w900;
 
   final double _fontSize;
   final FontWeight _fontWeight;
 
-  TextStyle _toStyle(Color color) {
+  TextStyle toTextStyle([Color? color]) {
     return GoogleFonts.getFont(
       'Nunito',
       color: color,
       fontSize: _fontSize,
       fontWeight: _fontWeight,
     );
+  }
+
+  Size textWidgetSize(
+    BuildContext context, {
+    String text = '',
+    double maxWidth = double.infinity,
+    TextScaler? textScaler,
+  }) {
+    final textPainter = TextPainter(
+      textDirection: Directionality.of(context),
+      textScaler: textScaler ?? MediaQuery.textScalerOf(context),
+      text: TextSpan(text: text, style: toTextStyle()),
+    )..layout(maxWidth: maxWidth);
+    return textPainter.size;
   }
 }

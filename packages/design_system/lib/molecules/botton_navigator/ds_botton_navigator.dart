@@ -24,8 +24,8 @@ class DSBottonNavigator extends StatefulWidget {
 }
 
 class _DSBottonNavigatorState extends State<DSBottonNavigator> {
-  static const double iconSize = 20;
-  static const double centralIconPadding = 40;
+  static const double iconSize = 18;
+  static const double centralIconPadding = 35;
   static const double buttonIconSize = iconSize + centralIconPadding;
   static const double buttonTopPadding = 5;
 
@@ -44,6 +44,8 @@ class _DSBottonNavigatorState extends State<DSBottonNavigator> {
           ),
           child: Padding(
             padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
               bottom: (MediaQuery.paddingOf(context).bottom - _Item.padding)
                   .clamp(0, double.infinity),
             ),
@@ -62,7 +64,7 @@ class _DSBottonNavigatorState extends State<DSBottonNavigator> {
                   isSelected: widget.currentIndex == 1,
                   onTap: () => widget.onChange(1),
                 ),
-                const SizedBox(width: buttonIconSize),
+                const SizedBox(width: buttonIconSize + 20),
                 _Item(
                   label: 'Cart',
                   icon: FontAwesomeIcons.bagShopping,
@@ -123,7 +125,7 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = isSelected
         ? DSTheme.of(context).colors.brandPrimary
-        : DSTheme.of(context).colors.brandSecondary;
+        : DSTheme.of(context).colors.brandDisable;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -140,7 +142,7 @@ class _Item extends StatelessWidget {
             const SizedBox(height: 6),
             DSText(
               label,
-              typography: DSTextTypography.smallSemiBold(),
+              typography: DSTextTypography.content(),
               color: color,
             ),
           ],
@@ -175,7 +177,6 @@ class _CustomPainter extends CustomPainter {
         ) /
         2;
     final shiftedRadiusSideCurve = shiftedRadius - (sideCurveWidth * 0.4);
-
     final middle = size.width / 2;
     final aPoint = Offset(middle - (shiftedRadius + sideCurveWidth), 0);
     final bPoint =
