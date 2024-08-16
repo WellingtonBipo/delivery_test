@@ -1,26 +1,32 @@
 {
+    "id": "cabbage",
     "title": "Organic Fresh Green Cabbage",
     "shop": "Shop: Alisha Mart",
     "details": "More commonly known as green cabbage, the cannonball cabbage is one of the most popular cabbage varieties. It is so named for the way its leaves wound tightly over one.",
     "price": 6.90,
     "old_price": 8.15,
+    "images_url": [
+        "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/cabbage_1.png",
+        "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/cabbage_2.png",
+        "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/cabbage_3.png"
+    ],
     "tags": [
         {
             "id": 1,
             "text": "Gluten Free",
-            "image_url": "",
+            "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/tag_gluten_free.png",
             "color": "#c3f1f4"
         },
         {
             "id": 2,
             "text": "Lactose Free",
-            "image_url": "",
+            "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/tag_lactose_free.png",
             "color": "#c2f3c4"
         },
         {
             "id": 3,
             "text": "Sugar Free",
-            "image_url": "",
+            "image_url": "https://raw.githubusercontent.com/WellingtonBipo/delivery_test/main/backend_mock/assets/tag_sugar_free.png",
             "color": "#f4f3c2"
         }
     ]
