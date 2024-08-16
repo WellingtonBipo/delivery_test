@@ -1,8 +1,9 @@
 import 'package:delivery_test/controllers/categories/categories_controller.dart';
 import 'package:delivery_test/controllers/special_offers/special_offers_controller.dart';
 import 'package:delivery_test/controllers/top_offers/top_offers_controller.dart';
-import 'package:delivery_test/models/category_model.dart';
-import 'package:delivery_test/models/special_offer_model.dart';
+import 'package:delivery_test/core/extensions/int_extension.dart';
+import 'package:delivery_test/core/extensions/string_extension.dart';
+import 'package:delivery_test/core/utils/controller_state.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,18 @@ class _HomePageState extends State<HomePage> {
   late String _selectedCity = _cities.first;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadInfos());
+  }
+
+  void _loadInfos() {
+    TopOffersController.read(context).getOffers();
+    CategoriesController.read(context).getCategories();
+    SpecialOffersController.read(context).getOffers();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DSAppBarHome(
@@ -28,14 +41,14 @@ class _HomePageState extends State<HomePage> {
         onTapLocation: _onTapLocation,
         onTapProfile: () => print('Profile'),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: HomePage.padding,
-          bottom: HomePage.padding + DSBottonNavigator.overflowHeight(),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: () async => _loadInfos(),
+        color: DSTheme.of(context).colors.brandPrimary,
+        child: ListView(
+          padding: EdgeInsets.only(
+            top: HomePage.padding,
+            bottom: HomePage.padding + DSBottonNavigator.overflowHeight(),
+          ),
           children: [
             const _OrderCards(),
             const SizedBox(height: 20),
@@ -152,28 +165,29 @@ class _Carousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: TopOffersController().getTopOffers(),
-      builder: (context, snapshot) {
-        final offers = snapshot.data;
-        return DSCarousel(
-          padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
-          children: [
-            if (offers == null)
-              const DSCardTopDeal.loading()
-            else
-              for (final offer in offers)
-                DSCardTopDeal(
-                  header: offer.header,
-                  title: offer.title,
-                  buttonText: offer.buttonText,
-                  onTapButton: () => print(offer.buttonText),
-                  imageUrl: offer.imageUrl,
-                  colorBackground: fromHex(offer.colorHex),
-                ),
-          ],
-        );
-      },
+    final state = TopOffersController.watch(context).state;
+    final children = switch (state) {
+      ControllerStateInitial() || ControllerStateLoading() => [
+          const DSCardTopDeal.loading(),
+        ],
+      ControllerStateError() => [const DSCardTopDeal.error()],
+      ControllerStateSuccess() => state.data.map((offer) {
+          return DSCardTopDeal(
+            header: offer.header,
+            title: offer.title,
+            buttonText: offer.buttonText,
+            imageUrl: offer.imageUrl,
+            colorBackground: offer.colorHex.toColorFromHex(),
+            onTapButton: () => print(offer.buttonText),
+          );
+        }).toList(),
+    };
+    return DSCarousel(
+      padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
+      onTap: state is! ControllerStateSuccess
+          ? null
+          : (i) => print(state.data?[i].buttonText),
+      children: children,
     );
   }
 }
@@ -183,31 +197,32 @@ class _CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: CategoriesController().getCategories(),
-      builder: (context, snapshot) {
-        final categories = snapshot.data ??
-            <CategoryModel?>[...List.generate(10, (_) => null)];
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
-          child: Row(
-            children: [
-              for (final category in categories) ...[
-                if (category == null)
-                  const DSCardCategory.loading()
-                else
-                  DSCardCategory(
-                    text: category.text,
-                    imageUrl: category.imageUrl,
-                    onTap: () => print(category),
-                  ),
-                const SizedBox(width: 10),
-              ],
-            ]..removeLast(),
+    final state = CategoriesController.watch(context).state;
+    final children = switch (state) {
+      ControllerStateInitial() || ControllerStateLoading() => 10.generate(
+          (_) => const DSCardCategory.loading(),
+        ),
+      ControllerStateError() => 10.generate(
+          (_) => const DSCardCategory.error(),
+        ),
+      ControllerStateSuccess() => state.data.map(
+          (category) => DSCardCategory(
+            text: category.text,
+            imageUrl: category.imageUrl,
+            onTap: () => print(category.text),
           ),
-        );
-      },
+        ),
+    };
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
+      child: Row(
+        children: children
+            .map((e) => [e, const SizedBox(width: 10)])
+            .expand((e) => e)
+            .toList()
+          ..removeLast(),
+      ),
     );
   }
 }
@@ -217,34 +232,30 @@ class _Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: SpecialOffersController().getSpecialOffers(),
-      builder: (context, snapshot) {
-        final offers = snapshot.data ??
-            <SpecialOfferModel?>[...List.generate(10, (_) => null)];
-
-        return GridView.count(
-          padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          children: [
-            for (final offer in offers)
-              if (offer == null)
-                const DSCardProduct.loading()
-              else
-                DSCardProduct(
-                  text: offer.text,
-                  rate: offer.rate,
-                  imageUrl: offer.imageUrl,
-                  color: fromHex(offer.colorHex),
-                  onTap: () => print(offer.text),
-                ),
-          ],
-        );
-      },
+    final state = SpecialOffersController.watch(context).state;
+    final children = switch (state) {
+      ControllerStateError() => 2.generate((_) => const DSCardProduct.error()),
+      ControllerStateInitial() ||
+      ControllerStateLoading() =>
+        2.generate((_) => const DSCardProduct.loading()),
+      ControllerStateSuccess() => state.data.map((product) {
+          return DSCardProduct(
+            text: product.text,
+            rate: product.rate,
+            imageUrl: product.imageUrl,
+            color: product.colorHex.toColorFromHex(),
+            onTap: () => print(product.text),
+          );
+        }).toList(),
+    };
+    return GridView.count(
+      padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      children: children,
     );
   }
 }
@@ -254,19 +265,3 @@ const _cities = [
   'São Paulo, SP',
   'London, UK',
 ];
-
-const _products = [
-  'Lime Orange',
-  'Organic Fresh Green Cabbage',
-  'Organic Fresh Green Cabbage',
-  'Organic Fresh Green Cabbage',
-  'Organic Fresh Green Cabbage',
-  'Organic Fresh Green Cabbage',
-];
-
-Color fromHex(String hexString) {
-  final buffer = StringBuffer();
-  if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-  buffer.write(hexString.replaceFirst('#', ''));
-  return Color(int.parse(buffer.toString(), radix: 16));
-}

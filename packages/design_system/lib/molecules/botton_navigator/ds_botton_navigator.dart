@@ -142,7 +142,7 @@ class _Item extends StatelessWidget {
             const SizedBox(height: 6),
             DSText(
               label,
-              typography: DSTextTypography.content(),
+              typography: const DSTextTypography.content(),
               color: color,
             ),
           ],

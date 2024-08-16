@@ -14,10 +14,16 @@ class DSCardCategory extends StatelessWidget {
   const DSCardCategory.loading({super.key})
       : isLoading = true,
         imageUrl = '',
-        text = 'category',
+        text = 'some ',
         onTap = null;
 
-  final bool isLoading;
+  const DSCardCategory.error({super.key})
+      : isLoading = null,
+        imageUrl = '',
+        text = 'some ',
+        onTap = null;
+
+  final bool? isLoading;
   final String text;
   final String imageUrl;
   final void Function()? onTap;
@@ -28,27 +34,37 @@ class DSCardCategory extends StatelessWidget {
     return Column(
       children: [
         DSShimmer(
-          enabled: isLoading,
-          child: Container(
-            height: size,
-            width: size,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: DSTheme.of(context).colors.contentPrimary,
-              borderRadius: BorderRadius.circular(10),
+          enabled: isLoading ?? false,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Container(
+              height: size,
+              width: size,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: DSTheme.of(context).colors.contentPrimary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: isLoading == null
+                  ? Icon(
+                      Icons.error,
+                      size: 30,
+                      color: DSTheme.of(context).colors.textPrimary,
+                    )
+                  : isLoading!
+                      ? null
+                      : Image.network(
+                          imageUrl,
+                          height: 40,
+                        ),
             ),
-            child: isLoading
-                ? null
-                : Image.network(
-                    imageUrl,
-                    height: 40,
-                  ),
           ),
         ),
         const SizedBox(height: 5),
         DSText(
-          text,
-          isLoading: isLoading,
+          isLoading == null ? '---' : text,
+          isLoading: isLoading ?? false,
           typography: const DSTextTypography.contentTitle2(),
         ),
       ],

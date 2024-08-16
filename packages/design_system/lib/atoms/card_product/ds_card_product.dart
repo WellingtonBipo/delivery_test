@@ -8,7 +8,7 @@ class DSCardProduct extends StatelessWidget {
     required this.text,
     required this.rate,
     required this.imageUrl,
-    required this.color,
+    required Color this.color,
     this.onTap,
     super.key,
   }) : isLoading = false;
@@ -17,55 +17,75 @@ class DSCardProduct extends StatelessWidget {
       : text = '',
         rate = 0,
         imageUrl = '',
-        color = Colors.grey,
+        color = null,
         onTap = null,
         isLoading = true;
+
+  const DSCardProduct.error({super.key})
+      : text = '',
+        rate = 0,
+        imageUrl = '',
+        color = null,
+        onTap = null,
+        isLoading = null;
 
   final String text;
   final double rate;
   final String imageUrl;
-  final Color color;
+  final Color? color;
   final void Function()? onTap;
-  final bool isLoading;
+  final bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
     return DSShimmer(
-      enabled: isLoading,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: 40,
+      enabled: isLoading ?? false,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color:
+                color ?? DSTheme.of(context).colors.contentPrimaryAlwaysLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  bottom: 40,
+                ),
+                child: (isLoading ?? true) ? null : Image.network(imageUrl),
               ),
-              child: isLoading ? null : Image.network(imageUrl),
-            ),
-            _Rate(rate),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.all(8),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DSText(
-                text,
-                textAlign: TextAlign.center,
-                typography: const DSTextTypography.header4(),
-                color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
-              ),
-            ),
-          ],
+              if (isLoading == false) _Rate(rate),
+              if (isLoading == null)
+                Icon(
+                  Icons.error,
+                  size: 40,
+                  color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
+                )
+              else
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DSText(
+                    text,
+                    textAlign: TextAlign.center,
+                    typography: const DSTextTypography.header4(),
+                    color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

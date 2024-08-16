@@ -8,7 +8,7 @@ class DSCardTopDeal extends StatelessWidget {
     required this.title,
     required this.buttonText,
     required this.imageUrl,
-    required this.colorBackground,
+    required Color this.colorBackground,
     this.onTapButton,
     this.header,
     super.key,
@@ -24,13 +24,23 @@ class DSCardTopDeal extends StatelessWidget {
         colorBackground = Colors.grey,
         isLoading = true;
 
-  final bool isLoading;
+  const DSCardTopDeal.error({
+    super.key,
+  })  : header = '',
+        title = '',
+        buttonText = '',
+        imageUrl = '',
+        onTapButton = null,
+        colorBackground = null,
+        isLoading = null;
+
+  final bool? isLoading;
   final String? header;
   final String title;
   final String buttonText;
   final void Function()? onTapButton;
   final String imageUrl;
-  final Color colorBackground;
+  final Color? colorBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +51,11 @@ class DSCardTopDeal extends StatelessWidget {
     );
 
     return DSShimmer(
-      enabled: isLoading,
+      enabled: isLoading ?? false,
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: colorBackground,
+          color: colorBackground ?? DSTheme.of(context).colors.contentPrimary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(
@@ -70,7 +80,9 @@ class DSCardTopDeal extends StatelessWidget {
                       horizontal: 15,
                     ),
                     decoration: BoxDecoration(
-                      color: DSTheme.of(context).colors.auxiliarBrandPrimary,
+                      color: isLoading == null
+                          ? Colors.transparent
+                          : DSTheme.of(context).colors.auxiliarBrandPrimary,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: DSText(
@@ -83,20 +95,24 @@ class DSCardTopDeal extends StatelessWidget {
               ],
             ),
             Align(
-              alignment: Alignment.centerRight,
+              alignment:
+                  isLoading == null ? Alignment.center : Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: isLoading
-                    ? Container(
-                        height: 125,
-                        width: 125,
-                        color: DSTheme.of(context).colors.contentSecondary,
-                      )
-                    : Image.network(
-                        imageUrl,
-                        height: 125,
-                        fit: BoxFit.cover,
-                      ),
+                padding: EdgeInsets.only(right: isLoading == null ? 0 : 10),
+                child: Container(
+                  height: 125,
+                  width: 125,
+                  color: Colors.transparent,
+                  child: isLoading == null
+                      ? Icon(
+                          Icons.error,
+                          size: 40,
+                          color: DSTheme.of(context).colors.textPrimary,
+                        )
+                      : isLoading!
+                          ? null
+                          : Image.network(imageUrl, fit: BoxFit.cover),
+                ),
               ),
             ),
           ],

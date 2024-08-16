@@ -22,12 +22,12 @@ class DSCarousel extends StatefulWidget {
 }
 
 class _DSCarouselState extends State<DSCarousel> {
-  final controller = CarouselController();
-  late var height = widget.height;
+  final _controller = CarouselController();
+  late var _height = widget.height;
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -35,11 +35,11 @@ class _DSCarouselState extends State<DSCarousel> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final carousel = height == null
+        final carousel = _height == null
             ? Builder(
                 builder: (context) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    setState(() => height = context.size?.height);
+                    setState(() => _height = context.size?.height);
                   });
                   return Padding(
                     padding: widget.padding ?? EdgeInsets.zero,
@@ -48,12 +48,12 @@ class _DSCarouselState extends State<DSCarousel> {
                 },
               )
             : SizedBox(
-                height: height,
+                height: _height,
                 child: CarouselView(
                   itemSnapping: true,
                   shape: const Border(),
                   padding: widget.padding,
-                  controller: controller,
+                  controller: _controller,
                   itemExtent: constraints.maxWidth,
                   shrinkExtent: constraints.maxWidth * widget.shrinkExtentRatio,
                   onTap: widget.onTap,
@@ -66,10 +66,10 @@ class _DSCarouselState extends State<DSCarousel> {
             carousel,
             const SizedBox(height: 10),
             ListenableBuilder(
-              listenable: controller,
+              listenable: _controller,
               builder: (context, _) {
-                final position = controller.hasClients
-                    ? controller.offset / constraints.maxWidth
+                final position = _controller.hasClients
+                    ? _controller.offset / constraints.maxWidth
                     : 0.0;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 
 class DSThemeProvider extends StatelessWidget {
   const DSThemeProvider({
-    required this.child,
+    required this.builder,
     super.key,
   });
 
-  final Widget child;
+  final Widget Function(BuildContext context) builder;
 
   @override
   Widget build(BuildContext context) {
-    return _DSThemeProvider(child, MediaQuery.of(context).platformBrightness);
+    return _DSThemeProvider(builder, MediaQuery.of(context).platformBrightness);
   }
 }
 
 class _DSThemeProvider extends InheritedWidget {
   _DSThemeProvider(
-    Widget child,
+    Widget Function(BuildContext context) builder,
     Brightness platformBrightness,
   )   : theme = DSTheme._(platformBrightness),
-        super(child: child);
+        super(child: Builder(builder: builder));
 
   final DSTheme theme;
 
@@ -62,6 +62,7 @@ ThemeData _materialTheme(Brightness brightness) {
 class DSColors {
   DSColors._light()
       : brandPrimary = _brandPrimaryLight,
+        brandSmooth = _brandSmoothLight,
         brandDisable = _brandDisableLight,
         auxiliarBrandPrimary = _auxiliarBrandPrimaryLight,
         scaffoldBackground = _scaffoldLight,
@@ -75,6 +76,7 @@ class DSColors {
 
   DSColors._dark()
       : brandPrimary = _brandPrimaryDark,
+        brandSmooth = _brandSmoothDark,
         brandDisable = _brandDisableDark,
         auxiliarBrandPrimary = _auxiliarBrandPrimaryDark,
         scaffoldBackground = _scaffoldDark,
@@ -87,6 +89,7 @@ class DSColors {
         contentPrimaryAlwaysLight = _contentPrimaryLight;
 
   final Color brandPrimary;
+  final Color brandSmooth;
   final Color brandDisable;
   final Color auxiliarBrandPrimary;
   final Color scaffoldBackground;
@@ -102,6 +105,8 @@ class DSColors {
 
 const _brandPrimaryLight = Color.fromRGBO(84, 226, 159, 1);
 const _brandPrimaryDark = Color.fromARGB(255, 71, 195, 138);
+const _brandSmoothLight = Color.fromRGBO(191, 239, 202, 1);
+const _brandSmoothDark = Color.fromRGBO(117, 171, 130, 1);
 const _brandDisableLight = Color.fromRGBO(172, 218, 196, 1);
 const _brandDisableDark = Color.fromARGB(255, 145, 185, 166);
 const _auxiliarBrandPrimaryLight = Color.fromRGBO(17, 54, 91, 1);

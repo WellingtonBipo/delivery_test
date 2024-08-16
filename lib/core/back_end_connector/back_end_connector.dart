@@ -4,18 +4,33 @@ class BackEndConnector {
   final String _baseUrl = 'https://raw.githubusercontent.com/'
       'WellingtonBipo/delivery_test/main/backend_mock/apis';
 
+  final _errorsCount = <String, int>{};
+
+  Future<Uri> _url(int errorFrequency, String path) async {
+    final errorCount = (_errorsCount[path] ?? 0) + 1;
+    _errorsCount[path] = errorCount;
+    final uri = Uri.parse('$_baseUrl/$path');
+
+    if (errorCount % errorFrequency == 0) {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      throw Exception('Forced error on => $uri');
+    }
+    await Future.delayed(Duration(seconds: (errorCount % errorFrequency) + 1));
+    return uri;
+  }
+
   Future<BackEndConnectorResponse> getTopOffers() async {
-    final response = await http.get(Uri.parse('$_baseUrl/top_offers.json'));
+    final response = await http.get(await _url(2, 'top_offers.json'));
     return BackEndConnectorResponse._fromResponse(response);
   }
 
   Future<BackEndConnectorResponse> getCategories() async {
-    final response = await http.get(Uri.parse('$_baseUrl/categories.json'));
+    final response = await http.get(await _url(3, 'categories.json'));
     return BackEndConnectorResponse._fromResponse(response);
   }
 
   Future<BackEndConnectorResponse> getSpecialOffers() async {
-    final response = await http.get(Uri.parse('$_baseUrl/special_offers.json'));
+    final response = await http.get(await _url(4, 'special_offers.json'));
     return BackEndConnectorResponse._fromResponse(response);
   }
 }
@@ -62,7 +77,8 @@ final class BackEndConnectorResponseSuccess extends BackEndConnectorResponse {
   final dynamic body;
 }
 
-final class BackEndConnectorResponseError extends BackEndConnectorResponse {
+final class BackEndConnectorResponseError extends BackEndConnectorResponse
+    implements Exception {
   BackEndConnectorResponseError({
     required super.statusCode,
     required this.error,

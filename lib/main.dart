@@ -1,3 +1,4 @@
+import 'package:delivery_test/app_providers.dart';
 import 'package:delivery_test/views/app_routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +13,15 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DSThemeProvider(
-      child: Builder(
-        builder: (context) {
-          return MaterialApp(
+      builder: (context) {
+        return AppProviders(
+          child: MaterialApp(
             theme: DSTheme.of(context).themeData,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRoutes.onGenerateRoute,
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

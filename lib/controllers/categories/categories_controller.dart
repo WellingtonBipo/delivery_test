@@ -1,30 +1,59 @@
 import 'dart:convert';
 
 import 'package:delivery_test/core/back_end_connector/back_end_connector.dart';
+import 'package:delivery_test/core/utils/controller_state.dart';
 import 'package:delivery_test/models/category_model.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CategoriesController {
-  final _backEndConnector = BackEndConnector();
+typedef CategoriesControllerState
+    = ControllerState<List<CategoryModel>, Object>;
 
-  Future<List<CategoryModel>> getCategories() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    final result = await _backEndConnector.getCategories();
-    return result.fold(
-      onError: (_) => [],
-      onSuccess: (response) {
-        final offers = <CategoryModel>[];
-        final offersJson = jsonDecode(response.body) as List;
-        for (final Map offerJson in offersJson) {
-          offers.add(
-            CategoryModel(
-              id: offerJson['id'],
-              text: offerJson['text'],
-              imageUrl: offerJson['image_url'],
-            ),
+class CategoriesController extends ChangeNotifier {
+  CategoriesController({required BackEndConnector backEndConnector})
+      : _backEndConnector = backEndConnector;
+
+  static CategoriesController read(BuildContext context) => context.read();
+  static CategoriesController watch(BuildContext context) => context.watch();
+
+  final BackEndConnector _backEndConnector;
+
+  CategoriesControllerState _state = const ControllerStateInitial();
+
+  CategoriesControllerState get state => _state;
+
+  set _notifyState(CategoriesControllerState state) {
+    _state = state;
+    notifyListeners();
+  }
+
+  Future<void> getCategories() async {
+    _notifyState = const ControllerStateLoading();
+    try {
+      final result = await _backEndConnector.getCategories();
+      _notifyState = result.fold(
+        onError: (e) => throw e,
+        onSuccess: (response) {
+          final offers = <CategoryModel>[];
+          final offersJson = jsonDecode(response.body) as List;
+          for (final Map offerJson in offersJson) {
+            offers.add(
+              CategoryModel(
+                id: offerJson['id'],
+                text: offerJson['text'],
+                imageUrl: offerJson['image_url'],
+              ),
+            );
+          }
+          return ControllerStateSuccess(
+            offers,
+            transformData: (e) => e.toList(),
           );
-        }
-        return offers;
-      },
-    );
+        },
+      );
+    } catch (e) {
+      print(e);
+      _notifyState = ControllerStateError(e);
+    }
   }
 }

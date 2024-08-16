@@ -27,7 +27,6 @@ class DSText extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = this.color ?? DSTheme.of(context).colors.textPrimary;
     final typography = this.typography ?? const DSTextTypography.body();
-
     if (isLoading) {
       final size = typography.textWidgetSize(context, text: text);
       return DSShimmer(
@@ -100,10 +99,10 @@ class DSTextTypography {
     TextScaler? textScaler,
   }) {
     final textPainter = TextPainter(
+      text: TextSpan(text: text, style: toTextStyle()),
       textDirection: Directionality.of(context),
       textScaler: textScaler ?? MediaQuery.textScalerOf(context),
-      text: TextSpan(text: text, style: toTextStyle()),
     )..layout(maxWidth: maxWidth);
-    return textPainter.size;
+    return Size(textPainter.size.width + 1, textPainter.size.height + 1);
   }
 }

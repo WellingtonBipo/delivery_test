@@ -1,5 +1,7 @@
+import 'package:design_system/atoms/image_asset/ds_image_asset.dart';
 import 'package:design_system/atoms/text/ds_text.dart';
 import 'package:design_system/ds_theme.dart';
+import 'package:design_system/tokens/ds_image_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -43,14 +45,14 @@ class DSAppBarHome extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   DSText(
                     title,
-                    typography: DSTextTypography.header3(),
+                    typography: const DSTextTypography.header3(),
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
                       DSText(
                         location,
-                        typography: DSTextTypography.header4(),
+                        typography: const DSTextTypography.header4(),
                         color: DSTheme.of(context).colors.textSecondary,
                       ),
                       const SizedBox(width: 8),
@@ -70,11 +72,13 @@ class DSAppBarHome extends StatelessWidget implements PreferredSizeWidget {
             onTap: onTapProfile,
             child: CircleAvatar(
               radius: 20,
-              backgroundColor: DSTheme.of(context).colors.brandDisable,
-              child: Icon(
-                FontAwesomeIcons.uber,
-                size: 20,
-                color: DSTheme.of(context).colors.scaffoldBackground,
+              backgroundColor: DSTheme.of(context).colors.brandSmooth,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 4),
+                child: DSImageAsset(
+                  asset: DSImageAssets.thumbsUp,
+                  height: 30,
+                ),
               ),
             ),
           ),
