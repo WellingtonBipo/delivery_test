@@ -47,7 +47,7 @@ class DSCardTopDeal extends StatelessWidget {
     final headerWidget = DSText(
       header ?? '',
       color: DSTheme.of(context).colors.textSecondaryAlwaysLight,
-      typography: const DSTextTypography.header4(),
+      typography: const DSTextTypography.header5(),
     );
 
     return DSShimmer(
@@ -66,7 +66,7 @@ class DSCardTopDeal extends StatelessWidget {
                 if (header != null) headerWidget,
                 DSText(
                   title,
-                  typography: const DSTextTypography.header2(),
+                  typography: const DSTextTypography.header3(),
                   color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
                 ),
                 if (header == null) headerWidget,
@@ -88,7 +88,7 @@ class DSCardTopDeal extends StatelessWidget {
                     child: DSText(
                       buttonText,
                       color: DSTheme.of(context).colors.brandPrimary,
-                      typography: const DSTextTypography.header3(),
+                      typography: const DSTextTypography.header4(),
                     ),
                   ),
                 ),
@@ -101,7 +101,6 @@ class DSCardTopDeal extends StatelessWidget {
                 padding: EdgeInsets.only(right: isLoading == null ? 0 : 10),
                 child: Container(
                   height: 125,
-                  width: 125,
                   color: Colors.transparent,
                   child: isLoading == null
                       ? Icon(

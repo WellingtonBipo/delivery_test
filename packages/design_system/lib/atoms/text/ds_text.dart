@@ -11,6 +11,7 @@ class DSText extends StatelessWidget {
     this.overflow,
     this.softWrap,
     this.textAlign,
+    this.decoration,
     this.isLoading = false,
     super.key,
   });
@@ -22,6 +23,7 @@ class DSText extends StatelessWidget {
   final bool? softWrap;
   final TextAlign? textAlign;
   final bool isLoading;
+  final TextDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class DSText extends StatelessWidget {
       overflow: overflow,
       softWrap: softWrap,
       textAlign: textAlign,
-      style: typography.toTextStyle(color),
+      style: typography.toTextStyle(color: color, decoration: decoration),
     );
   }
 }
@@ -60,15 +62,27 @@ class DSTextTypography {
       : _fontSize = 14,
         _fontWeight = FontWeight.normal;
 
+  const DSTextTypography.bodyBold()
+      : _fontSize = 14,
+        _fontWeight = FontWeight.bold;
+
+  const DSTextTypography.header1()
+      : _fontSize = 26,
+        _fontWeight = FontWeight.w900;
+
   const DSTextTypography.header2()
-      : _fontSize = 18,
+      : _fontSize = 22,
         _fontWeight = FontWeight.w900;
 
   const DSTextTypography.header3()
+      : _fontSize = 18,
+        _fontWeight = FontWeight.w900;
+
+  const DSTextTypography.header4()
       : _fontSize = 16,
         _fontWeight = FontWeight.bold;
 
-  const DSTextTypography.header4()
+  const DSTextTypography.header5()
       : _fontSize = 14,
         _fontWeight = FontWeight.bold;
 
@@ -83,12 +97,13 @@ class DSTextTypography {
   final double _fontSize;
   final FontWeight _fontWeight;
 
-  TextStyle toTextStyle([Color? color]) {
+  TextStyle toTextStyle({Color? color, TextDecoration? decoration}) {
     return GoogleFonts.getFont(
       'Nunito',
       color: color,
       fontSize: _fontSize,
       fontWeight: _fontWeight,
+      decoration: decoration,
     );
   }
 

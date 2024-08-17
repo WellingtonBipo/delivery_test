@@ -6,6 +6,22 @@ class BackEndConnector {
 
   final _errorsCount = <String, int>{};
 
+  Future<BackEndConnectorResponse> getTopOffers() => _get(2, 'top_offers.json');
+
+  Future<BackEndConnectorResponse> getCategories() =>
+      _get(3, 'categories.json');
+
+  Future<BackEndConnectorResponse> getSpecialOffers() =>
+      _get(4, 'special_offers.json');
+
+  Future<BackEndConnectorResponse> getProductDetails(String productId) =>
+      _get(2, 'product_details/$productId.json');
+
+  Future<BackEndConnectorResponse> _get(int errorFrequency, String path) async {
+    final response = await http.get(await _url(errorFrequency, path));
+    return BackEndConnectorResponse._fromResponse(response);
+  }
+
   Future<Uri> _url(int errorFrequency, String path) async {
     final errorCount = (_errorsCount[path] ?? 0) + 1;
     _errorsCount[path] = errorCount;
@@ -17,21 +33,6 @@ class BackEndConnector {
     }
     await Future.delayed(Duration(seconds: (errorCount % errorFrequency) + 1));
     return uri;
-  }
-
-  Future<BackEndConnectorResponse> getTopOffers() async {
-    final response = await http.get(await _url(2, 'top_offers.json'));
-    return BackEndConnectorResponse._fromResponse(response);
-  }
-
-  Future<BackEndConnectorResponse> getCategories() async {
-    final response = await http.get(await _url(3, 'categories.json'));
-    return BackEndConnectorResponse._fromResponse(response);
-  }
-
-  Future<BackEndConnectorResponse> getSpecialOffers() async {
-    final response = await http.get(await _url(4, 'special_offers.json'));
-    return BackEndConnectorResponse._fromResponse(response);
   }
 }
 

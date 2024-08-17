@@ -1,15 +1,25 @@
-class SpecialOfferModel {
+import 'package:delivery_test/models/product.dart';
+
+class SpecialOfferModel extends Product {
   const SpecialOfferModel({
-    required this.id,
-    required this.text,
+    required super.id,
+    required super.name,
+    required String super.imageUrl,
     required this.rate,
     required this.colorHex,
-    required this.imageUrl,
   });
 
-  final String id;
-  final String text;
   final double rate;
   final String colorHex;
-  final String imageUrl;
+  @override
+  String get imageUrl => super.imageUrl!;
+
+  @override
+  bool operator ==(covariant SpecialOfferModel other) {
+    if (identical(this, other)) return true;
+    return super == other && other.rate == rate && other.colorHex == colorHex;
+  }
+
+  @override
+  int get hashCode => super.hashCode ^ rate.hashCode ^ colorHex.hashCode;
 }

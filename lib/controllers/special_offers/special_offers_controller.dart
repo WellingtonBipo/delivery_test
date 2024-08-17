@@ -10,8 +10,7 @@ typedef SpecialOffersControllerState
     = ControllerState<List<SpecialOfferModel>, Object>;
 
 class SpecialOffersController extends ChangeNotifier {
-  SpecialOffersController({required BackEndConnector backEndConnector})
-      : _backEndConnector = backEndConnector;
+  SpecialOffersController(this._backEndConnector);
 
   static SpecialOffersController read(BuildContext context) => context.read();
   static SpecialOffersController watch(BuildContext context) => context.watch();
@@ -27,6 +26,9 @@ class SpecialOffersController extends ChangeNotifier {
     notifyListeners();
   }
 
+  final _productsFavoritesIds = <String>{};
+  Set<String> get productsFavoritesIds => _productsFavoritesIds.toSet();
+
   Future<void> getOffers() async {
     _notifyState = const ControllerStateLoading();
     try {
@@ -41,7 +43,7 @@ class SpecialOffersController extends ChangeNotifier {
             offers.add(
               SpecialOfferModel(
                 id: offerJson['id'],
-                text: offerJson['text'],
+                name: offerJson['text'],
                 rate: offerJson['rate'],
                 colorHex: offerJson['color_hex'],
                 imageUrl: offerJson['image_url'],
@@ -55,8 +57,16 @@ class SpecialOffersController extends ChangeNotifier {
         },
       );
     } catch (e) {
-      print(e);
       _notifyState = ControllerStateError(e);
     }
+  }
+
+  void toggleFavorite(String productId) {
+    if (_productsFavoritesIds.contains(productId)) {
+      _productsFavoritesIds.remove(productId);
+    } else {
+      _productsFavoritesIds.add(productId);
+    }
+    notifyListeners();
   }
 }

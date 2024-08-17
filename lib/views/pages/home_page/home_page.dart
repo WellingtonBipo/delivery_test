@@ -1,9 +1,11 @@
 import 'package:delivery_test/controllers/categories/categories_controller.dart';
+import 'package:delivery_test/controllers/product_details/product_details_controller.dart';
 import 'package:delivery_test/controllers/special_offers/special_offers_controller.dart';
 import 'package:delivery_test/controllers/top_offers/top_offers_controller.dart';
 import 'package:delivery_test/core/extensions/int_extension.dart';
 import 'package:delivery_test/core/extensions/string_extension.dart';
 import 'package:delivery_test/core/utils/controller_state.dart';
+import 'package:delivery_test/views/app_routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
@@ -114,7 +116,7 @@ class _Title extends StatelessWidget {
         children: [
           DSText(
             title,
-            typography: const DSTextTypography.header2(),
+            typography: const DSTextTypography.header3(),
           ),
           if (trailingText != null)
             GestureDetector(
@@ -122,7 +124,7 @@ class _Title extends StatelessWidget {
               onTap: onTapTrailing,
               child: DSText(
                 trailingText!,
-                typography: const DSTextTypography.header4(),
+                typography: const DSTextTypography.header5(),
                 color: DSTheme.of(context).colors.brandPrimary,
               ),
             ),
@@ -232,7 +234,8 @@ class _Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = SpecialOffersController.watch(context).state;
+    final controller = SpecialOffersController.watch(context);
+    final state = controller.state;
     final children = switch (state) {
       ControllerStateError() => 2.generate((_) => const DSCardProduct.error()),
       ControllerStateInitial() ||
@@ -240,11 +243,17 @@ class _Products extends StatelessWidget {
         2.generate((_) => const DSCardProduct.loading()),
       ControllerStateSuccess() => state.data.map((product) {
           return DSCardProduct(
-            text: product.text,
+            heroTag: 'product-${product.id}',
+            text: product.name,
             rate: product.rate,
             imageUrl: product.imageUrl,
             color: product.colorHex.toColorFromHex(),
-            onTap: () => print(product.text),
+            isFavorite: controller.productsFavoritesIds.contains(product.id),
+            onTap: () {
+              ProductDetailsController.read(context).loadDetails(product);
+              Navigator.of(context).pushNamed(AppRoutes.productDetails);
+            },
+            onTapFavorite: () => controller.toggleFavorite(product.id),
           );
         }).toList(),
     };
@@ -261,6 +270,7 @@ class _Products extends StatelessWidget {
 }
 
 const _cities = [
+  'Bacangan, Sambit',
   'New York, NY',
   'São Paulo, SP',
   'London, UK',

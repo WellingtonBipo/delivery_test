@@ -16,7 +16,10 @@ class DSShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!enabled) return child;
     return Shimmer.fromColors(
-      baseColor: DSTheme.of(context).colors.contentSecondary,
+      baseColor: switch (DSTheme.of(context).platformBrightness) {
+        Brightness.light => const Color.fromARGB(255, 245, 245, 245),
+        Brightness.dark => const Color.fromARGB(255, 35, 35, 35),
+      },
       highlightColor: DSTheme.of(context).colors.scaffoldBackground,
       child: child,
     );

@@ -3,4 +3,6 @@ export 'package:design_system/atoms/card_order/ds_card_order.dart';
 export 'package:design_system/atoms/card_product/ds_card_product.dart';
 export 'package:design_system/atoms/card_top_deal/ds_card_top_deal.dart';
 export 'package:design_system/atoms/image_asset/ds_image_asset.dart';
+export 'package:design_system/atoms/ink_well_container/ds_ink_well_container.dart';
+export 'package:design_system/atoms/rate/ds_rate.dart';
 export 'package:design_system/atoms/text/ds_text.dart';

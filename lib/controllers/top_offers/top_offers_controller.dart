@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 typedef TopOffersControllerState = ControllerState<List<TopOfferModel>, Object>;
 
 class TopOffersController extends ChangeNotifier {
-  TopOffersController({required BackEndConnector backEndConnector})
-      : _backEndConnector = backEndConnector;
+  TopOffersController(this._backEndConnector);
 
   static TopOffersController read(BuildContext context) => context.read();
   static TopOffersController watch(BuildContext context) => context.watch();

@@ -45,14 +45,14 @@ class DSAppBarHome extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   DSText(
                     title,
-                    typography: const DSTextTypography.header3(),
+                    typography: const DSTextTypography.header4(),
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
                       DSText(
                         location,
-                        typography: const DSTextTypography.header4(),
+                        typography: const DSTextTypography.header5(),
                         color: DSTheme.of(context).colors.textSecondary,
                       ),
                       const SizedBox(width: 8),

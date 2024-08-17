@@ -36,27 +36,26 @@ class DSTheme {
           Brightness.dark => DSColors._dark(),
         };
 
-  final Brightness platformBrightness;
-  final DSColors colors;
-  ThemeData get themeData => _materialTheme(platformBrightness);
-
   static DSTheme of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_DSThemeProvider>()!.theme;
-}
 
-ThemeData _materialTheme(Brightness brightness) {
-  return switch (brightness) {
-    Brightness.light => ThemeData(
-        brightness: brightness,
-        primaryColor: _brandPrimaryLight,
-        scaffoldBackgroundColor: _scaffoldLight,
-      ),
-    Brightness.dark => ThemeData(
-        brightness: brightness,
-        primaryColor: _brandPrimaryDark,
-        scaffoldBackgroundColor: _scaffoldDark,
-      ),
-  };
+  final Brightness platformBrightness;
+  final DSColors colors;
+
+  ThemeData get themeData {
+    return switch (platformBrightness) {
+      Brightness.light => ThemeData(
+          brightness: platformBrightness,
+          primaryColor: _brandPrimaryLight,
+          scaffoldBackgroundColor: _scaffoldLight,
+        ),
+      Brightness.dark => ThemeData(
+          brightness: platformBrightness,
+          primaryColor: _brandPrimaryDark,
+          scaffoldBackgroundColor: _scaffoldDark,
+        ),
+    };
+  }
 }
 
 class DSColors {
@@ -113,11 +112,11 @@ const _auxiliarBrandPrimaryLight = Color.fromRGBO(17, 54, 91, 1);
 const _auxiliarBrandPrimaryDark = Color.fromARGB(255, 17, 54, 91);
 const _scaffoldLight = Color.fromARGB(255, 255, 255, 255);
 const _contentPrimaryLight = Color.fromARGB(255, 245, 245, 245);
-const _contentPrimaryDark = Color.fromARGB(255, 30, 30, 30);
-const _contentSecondaryLight = Color.fromARGB(255, 220, 220, 220);
-const _contentSecondaryDark = Color.fromARGB(255, 70, 70, 70);
+const _contentPrimaryDark = Color.fromARGB(255, 35, 35, 35);
+const _contentSecondaryLight = Color.fromARGB(255, 190, 190, 190);
+const _contentSecondaryDark = Color.fromARGB(255, 110, 110, 110);
 const _scaffoldDark = Color.fromARGB(255, 25, 25, 25);
 const _textPrimaryLight = Color.fromRGBO(14, 50, 87, 1);
 const _textPrimaryDark = Color.fromARGB(255, 255, 255, 255);
-const _textSecondaryLight = Color.fromARGB(255, 115, 115, 115);
-const _textSecondaryDark = Color.fromARGB(255, 181, 181, 181);
+const _textSecondaryLight = Color.fromARGB(255, 200, 200, 200);
+const _textSecondaryDark = Color.fromARGB(255, 150, 150, 150);

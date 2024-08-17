@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   http: ^1.2.2
   provider: ^6.1.2
+  collection: ^1.18.0
 
   design_system:
     path: packages/design_system

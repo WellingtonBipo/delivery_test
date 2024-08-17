@@ -12,7 +12,7 @@ final class ControllerStateLoading<T, E> extends ControllerState<T, E> {
 }
 
 final class ControllerStateSuccess<T, E> extends ControllerState<T, E> {
-  ControllerStateSuccess(this._data, {required T Function(T e)? transformData})
+  ControllerStateSuccess(this._data, {T Function(T e)? transformData})
       : _transformData = transformData;
 
   final T _data;

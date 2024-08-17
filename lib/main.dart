@@ -12,16 +12,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DSThemeProvider(
-      builder: (context) {
-        return AppProviders(
-          child: MaterialApp(
+    return AppProviders(
+      child: DSThemeProvider(
+        builder: (context) {
+          return MaterialApp(
             theme: DSTheme.of(context).themeData,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRoutes.onGenerateRoute,
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

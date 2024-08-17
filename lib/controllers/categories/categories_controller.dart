@@ -10,8 +10,7 @@ typedef CategoriesControllerState
     = ControllerState<List<CategoryModel>, Object>;
 
 class CategoriesController extends ChangeNotifier {
-  CategoriesController({required BackEndConnector backEndConnector})
-      : _backEndConnector = backEndConnector;
+  CategoriesController(this._backEndConnector);
 
   static CategoriesController read(BuildContext context) => context.read();
   static CategoriesController watch(BuildContext context) => context.watch();

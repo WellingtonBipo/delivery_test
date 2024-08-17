@@ -1,3 +1,4 @@
+import 'package:design_system/atoms/ink_well_container/ds_ink_well_container.dart';
 import 'package:design_system/atoms/shimmer/ds_shimmer.dart';
 import 'package:design_system/atoms/text/ds_text.dart';
 import 'package:design_system/ds_theme.dart';
@@ -35,17 +36,15 @@ class DSCardCategory extends StatelessWidget {
       children: [
         DSShimmer(
           enabled: isLoading ?? false,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          child: DSInkWellContainer(
             onTap: onTap,
-            child: Container(
-              height: size,
-              width: size,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: DSTheme.of(context).colors.contentPrimary,
-                borderRadius: BorderRadius.circular(10),
-              ),
+            height: size,
+            width: size,
+            decoration: BoxDecoration(
+              color: DSTheme.of(context).colors.contentPrimary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Align(
               child: isLoading == null
                   ? Icon(
                       Icons.error,
