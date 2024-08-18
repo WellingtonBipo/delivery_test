@@ -37,7 +37,7 @@ class DSText extends StatelessWidget {
           height: size.height,
           width: size.width,
           decoration: BoxDecoration(
-            color: color,
+            color: DSTheme.of(context).colors.scaffoldBackground,
             borderRadius: BorderRadius.circular(100),
           ),
         ),

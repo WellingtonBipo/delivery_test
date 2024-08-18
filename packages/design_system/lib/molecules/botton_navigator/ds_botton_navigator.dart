@@ -119,7 +119,7 @@ class _Item extends StatelessWidget {
   final bool isSelected;
   final void Function() onTap;
 
-  static const padding = 15.0;
+  static const padding = 10.0;
 
   @override
   Widget build(BuildContext context) {

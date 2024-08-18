@@ -11,16 +11,15 @@
             "type": "dart"
         },
         {
-            "name": "delivery_test (profile mode)",
+            "program": "example/lib/main.dart",
+            "name": "example",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "delivery_test (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
+            "deviceId": "chrome",
+            "args": [
+                "--web-renderer",
+                "auto"
+            ]
         }
     ]
 }
