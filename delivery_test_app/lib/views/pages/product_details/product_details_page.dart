@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:delivery_test/controllers/product_details/product_details_controller.dart';
 import 'package:delivery_test/controllers/special_offers/special_offers_controller.dart';
@@ -85,7 +86,7 @@ class _CarouselImages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final maxHeight = screenWidth * 0.78;
+    final double maxHeight = min(400, screenWidth * 0.78);
     return SliverResizingHeader(
       minExtentPrototype: SizedBox(height: maxHeight / 2),
       maxExtentPrototype: SizedBox(height: maxHeight),
@@ -424,7 +425,7 @@ class _AddCartBox extends StatelessWidget {
             ),
             Expanded(
               child: DSInkWellContainer(
-                onTap: () => print('Add to cart'),
+                onTap: () {},
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: DSTheme.of(context).colors.brandPrimary,

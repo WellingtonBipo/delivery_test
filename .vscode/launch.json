@@ -18,16 +18,12 @@
             "deviceId": "chrome",
             "args": [
                 "--wasm",
-                // "--web-renderer",
-                // "auto",
-                // "canvaskit",
             ]
         },
         {
             "name": "build web",
             "request": "launch",
             "type": "node-terminal",
-            // "command": "flutter build web --wasm -t ${workspaceFolder}/delivery_test_app/example/lib.main.dart",
             "command": "cd ${workspaceFolder}/delivery_test_app/example/ && flutter build web --wasm -o ${workspaceFolder}",
         },
     ]
