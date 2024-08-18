@@ -4,6 +4,10 @@ A mock application developed using Flutter and Dart, designed to demonstrate a s
 
 ### [Delivery Test Web Example](https://wellingtonbipo.github.io/delivery_test/)
 
+### GIF Example
+
+![Alt Text](https://github.com/WellingtonBipo/delivery_test/blob/master/example_gif.gif?raw=true)
+
 ## Features
 
 - **Mock API/Backend**: The app uses a mock backend hosted on GitHub. The backend consists of a simple JSON file, which is downloaded and parsed within the app to simulate fetching data from a server. This approach allows for easy testing and modification without the need for a live server.
