@@ -11,7 +11,7 @@ class DSAppBarPage extends StatelessWidget implements PreferredSizeWidget {
   final DSAppBarIconButton? rightIcon;
 
   @override
-  Size get preferredSize => const Size(double.infinity, 40);
+  Size get preferredSize => const Size(double.infinity, 50);
 
   @override
   Widget build(BuildContext context) {

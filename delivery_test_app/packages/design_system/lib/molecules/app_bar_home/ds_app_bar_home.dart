@@ -19,7 +19,7 @@ class DSAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   final void Function() onTapLocation;
   final void Function() onTapProfile;
 
-  static const height = 50.0;
+  static const height = 60.0;
 
   @override
   Size get preferredSize => const Size(double.infinity, height);
