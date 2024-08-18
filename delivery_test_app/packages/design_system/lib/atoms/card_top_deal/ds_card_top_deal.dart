@@ -17,7 +17,7 @@ class DSCardTopDeal extends StatelessWidget {
   const DSCardTopDeal.loading({
     super.key,
   })  : header = '',
-        title = '',
+        title = '\n',
         buttonText = '',
         imageUrl = '',
         onTapButton = null,
@@ -53,47 +53,13 @@ class DSCardTopDeal extends StatelessWidget {
     return DSShimmer(
       enabled: isLoading ?? false,
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           color: colorBackground ?? DSTheme.of(context).colors.contentPrimary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (header != null) headerWidget,
-                DSText(
-                  title,
-                  typography: const DSTextTypography.header3(),
-                  color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
-                ),
-                if (header == null) headerWidget,
-                const SizedBox(height: 10),
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: onTapButton,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isLoading == null
-                          ? Colors.transparent
-                          : DSTheme.of(context).colors.auxiliarBrandPrimary,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: DSText(
-                      buttonText,
-                      color: DSTheme.of(context).colors.brandPrimary,
-                      typography: const DSTextTypography.header4(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
             Align(
               alignment:
                   isLoading == null ? Alignment.center : Alignment.centerRight,
@@ -110,8 +76,46 @@ class DSCardTopDeal extends StatelessWidget {
                         )
                       : isLoading!
                           ? null
-                          : Image.network(imageUrl, fit: BoxFit.cover),
+                          : Image.network(imageUrl, fit: BoxFit.contain),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (header != null) headerWidget,
+                  DSText(
+                    title,
+                    typography: const DSTextTypography.header3(),
+                    color: DSTheme.of(context).colors.textPrimaryAlwaysLight,
+                  ),
+                  if (header == null) headerWidget,
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: onTapButton,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isLoading == null
+                            ? Colors.transparent
+                            : DSTheme.of(context).colors.auxiliarBrandPrimary,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: DSText(
+                        buttonText,
+                        color: DSTheme.of(context).colors.brandPrimary,
+                        typography: const DSTextTypography.header4(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

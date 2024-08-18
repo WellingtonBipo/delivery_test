@@ -468,6 +468,7 @@ class _Error extends StatelessWidget {
               const SizedBox(height: 15),
               const DSText(
                 'Error on loading product infos',
+                textAlign: TextAlign.center,
                 typography: DSTextTypography.header2(),
               ),
             ],

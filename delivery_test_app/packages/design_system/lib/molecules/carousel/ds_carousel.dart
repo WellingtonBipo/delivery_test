@@ -49,12 +49,13 @@ class _DSCarouselState extends State<DSCarousel> {
           ? Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    final height = context.size?.height;
-                    if (height == null) return;
-                    _height =
-                        height + controllerSize.space + controllerSize.height;
-                  });
+                  final height = context.size?.height;
+                  if (height == null || height.isInfinite) return;
+                  setState(
+                    () => _height =
+                        height + controllerSize.space + controllerSize.height,
+                  );
+                  print(_height);
                 });
                 return Padding(
                   padding: widget.padding ?? EdgeInsets.zero,

@@ -46,29 +46,63 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         onRefresh: () async => _loadInfos(),
         color: DSTheme.of(context).colors.brandPrimary,
-        child: ListView(
-          padding: EdgeInsets.only(
-            top: HomePage.padding,
-            bottom: HomePage.padding + DSBottonNavigator.overflowHeight(),
-          ),
-          children: [
-            const _OrderCards(),
-            const SizedBox(height: 20),
-            const _Carousel(),
-            const SizedBox(height: 25),
-            const _Title(title: 'Shop by category'),
-            const SizedBox(height: 10),
-            const _CategoryList(),
-            const SizedBox(height: 25),
-            _Title(
-              title: "Today's Special",
-              trailingText: 'See all',
-              onTapTrailing: () {},
+        child: CustomScrollView(
+          slivers: [
+            // Required to use CustomScrollView
+            // because a flutter 3.24.0 version bug
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  const SizedBox(height: HomePage.padding),
+                  const _OrderCards(),
+                  const SizedBox(height: 20),
+                  const _Carousel(),
+                  const SizedBox(height: 25),
+                  const _Title(title: 'Shop by category'),
+                  const SizedBox(height: 10),
+                  const _CategoryList(),
+                  const SizedBox(height: 25),
+                  _Title(
+                    title: "Today's Special",
+                    trailingText: 'See all',
+                    onTapTrailing: () {},
+                  ),
+                  const SizedBox(height: 10),
+                  const _Products(),
+                  SizedBox(
+                    height:
+                        HomePage.padding + DSBottonNavigator.overflowHeight(),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            const _Products(),
           ],
         ),
+        // child: SingleChildScrollView(
+        //   padding: EdgeInsets.only(
+        //     top: HomePage.padding,
+        //     bottom: DSBottonNavigator.overflowHeight(),
+        //   ),
+        //   child: ListView(
+        //     children: [
+        //       const _OrderCards(),
+        //       const SizedBox(height: 20),
+        //       const _Carousel(),
+        //       const SizedBox(height: 25),
+        //       const _Title(title: 'Shop by category'),
+        //       const SizedBox(height: 10),
+        //       const _CategoryList(),
+        //       const SizedBox(height: 25),
+        //       _Title(
+        //         title: "Today's Special",
+        //         trailingText: 'See all',
+        //         onTapTrailing: () {},
+        //       ),
+        //       const SizedBox(height: 10),
+        //       const _Products(),
+        //     ],
+        //   ),
+        // ),
       ),
       bottomNavigationBar: DSBottonNavigator(
         currentIndex: _currentIndex,
@@ -184,6 +218,7 @@ class _Carousel extends StatelessWidget {
           );
         }).toList(),
     };
+
     return DSCarousel(
       padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
       onTap: state is! ControllerStateSuccess ? null : (i) {},
