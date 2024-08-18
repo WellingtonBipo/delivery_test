@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "program": "delivery_test_app/lib/main.dart",
+            "name": "delivery_test",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "program": "delivery_test_app/example/lib/main.dart",
+            "name": "example",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            "args": [
+                "--wasm",
+                // "--web-renderer",
+                // "auto",
+                // "canvaskit",
+            ]
+        },
+        {
+            "name": "build web",
+            "request": "launch",
+            "type": "node-terminal",
+            // "command": "flutter build web --wasm -t ${workspaceFolder}/delivery_test_app/example/lib.main.dart",
+            "command": "cd ${workspaceFolder}/delivery_test_app/example/ && flutter build web --wasm -o ${workspaceFolder}",
+        },
+    ]
+}
