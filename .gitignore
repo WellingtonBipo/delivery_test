@@ -45,3 +45,5 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 pubspec.lock
+devtools_options.yaml
+coverage/lcov.info

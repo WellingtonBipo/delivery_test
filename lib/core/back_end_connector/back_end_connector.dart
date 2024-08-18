@@ -60,12 +60,13 @@ sealed class BackEndConnectorResponse {
 
   T fold<T>({
     required T Function(BackEndConnectorResponseSuccess) onSuccess,
-    required T Function(BackEndConnectorResponseError) onError,
+    T Function(BackEndConnectorResponseError)? onError,
   }) {
     final _this = this;
     return switch (_this) {
       BackEndConnectorResponseSuccess() => onSuccess(_this),
-      BackEndConnectorResponseError() => onError(_this),
+      BackEndConnectorResponseError() =>
+        onError != null ? onError(_this) : throw _this,
     };
   }
 }

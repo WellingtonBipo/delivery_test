@@ -17,9 +17,18 @@ class SpecialOfferModel extends Product {
   @override
   bool operator ==(covariant SpecialOfferModel other) {
     if (identical(this, other)) return true;
-    return super == other && other.rate == rate && other.colorHex == colorHex;
+    return other.id == id &&
+        other.name == name &&
+        other.imageUrl == imageUrl &&
+        other.rate == rate &&
+        other.colorHex == colorHex;
   }
 
   @override
-  int get hashCode => super.hashCode ^ rate.hashCode ^ colorHex.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      name.hashCode ^
+      imageUrl.hashCode ^
+      rate.hashCode ^
+      colorHex.hashCode;
 }

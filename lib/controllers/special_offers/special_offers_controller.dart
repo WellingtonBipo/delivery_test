@@ -33,29 +33,7 @@ class SpecialOffersController extends ChangeNotifier {
     _notifyState = const ControllerStateLoading();
     try {
       final result = await _backEndConnector.getSpecialOffers();
-
-      _notifyState = result.fold(
-        onError: (e) => throw e,
-        onSuccess: (response) {
-          final offers = <SpecialOfferModel>[];
-          final offersJson = jsonDecode(response.body) as List;
-          for (final Map offerJson in offersJson) {
-            offers.add(
-              SpecialOfferModel(
-                id: offerJson['id'],
-                name: offerJson['text'],
-                rate: offerJson['rate'],
-                colorHex: offerJson['color_hex'],
-                imageUrl: offerJson['image_url'],
-              ),
-            );
-          }
-          return ControllerStateSuccess(
-            offers,
-            transformData: (e) => e.toList(),
-          );
-        },
-      );
+      _notifyState = result.fold(onSuccess: _deserialize);
     } catch (e) {
       _notifyState = ControllerStateError(e);
     }
@@ -69,4 +47,26 @@ class SpecialOffersController extends ChangeNotifier {
     }
     notifyListeners();
   }
+}
+
+SpecialOffersControllerState _deserialize(
+  BackEndConnectorResponseSuccess response,
+) {
+  final offers = <SpecialOfferModel>[];
+  final offersJson = jsonDecode(response.body) as List;
+  for (final Map offerJson in offersJson) {
+    offers.add(
+      SpecialOfferModel(
+        id: offerJson['id'],
+        name: offerJson['text'],
+        rate: offerJson['rate'],
+        colorHex: offerJson['color_hex'],
+        imageUrl: offerJson['image_url'],
+      ),
+    );
+  }
+  return ControllerStateSuccess(
+    offers,
+    transformData: (e) => e.toList(),
+  );
 }

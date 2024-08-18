@@ -30,29 +30,29 @@ class CategoriesController extends ChangeNotifier {
     _notifyState = const ControllerStateLoading();
     try {
       final result = await _backEndConnector.getCategories();
-      _notifyState = result.fold(
-        onError: (e) => throw e,
-        onSuccess: (response) {
-          final offers = <CategoryModel>[];
-          final offersJson = jsonDecode(response.body) as List;
-          for (final Map offerJson in offersJson) {
-            offers.add(
-              CategoryModel(
-                id: offerJson['id'],
-                text: offerJson['text'],
-                imageUrl: offerJson['image_url'],
-              ),
-            );
-          }
-          return ControllerStateSuccess(
-            offers,
-            transformData: (e) => e.toList(),
-          );
-        },
-      );
+      _notifyState = result.fold(onSuccess: _deserialize);
     } catch (e) {
-      print(e);
       _notifyState = ControllerStateError(e);
     }
   }
+}
+
+CategoriesControllerState _deserialize(
+  BackEndConnectorResponseSuccess response,
+) {
+  final offers = <CategoryModel>[];
+  final offersJson = jsonDecode(response.body) as List;
+  for (final Map offerJson in offersJson) {
+    offers.add(
+      CategoryModel(
+        id: offerJson['id'],
+        text: offerJson['text'],
+        imageUrl: offerJson['image_url'],
+      ),
+    );
+  }
+  return ControllerStateSuccess(
+    offers,
+    transformData: (e) => e.toList(),
+  );
 }

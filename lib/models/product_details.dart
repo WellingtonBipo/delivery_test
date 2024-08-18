@@ -25,7 +25,10 @@ class ProductDetails extends Product {
   @override
   bool operator ==(covariant ProductDetails other) {
     if (identical(this, other)) return true;
-    return super == other &&
+
+    return other.id == id &&
+        other.name == name &&
+        other.imageUrl == imageUrl &&
         other.rate == rate &&
         other.shop == shop &&
         other.details == details &&
@@ -36,15 +39,18 @@ class ProductDetails extends Product {
   }
 
   @override
-  int get hashCode =>
-      super.hashCode ^
-      rate.hashCode ^
-      shop.hashCode ^
-      details.hashCode ^
-      price.hashCode ^
-      oldPrice.hashCode ^
-      const ListEquality().hash(imagesUrl) ^
-      const ListEquality().hash(tags);
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        imageUrl.hashCode ^
+        rate.hashCode ^
+        shop.hashCode ^
+        details.hashCode ^
+        price.hashCode ^
+        oldPrice.hashCode ^
+        const ListEquality().hash(imagesUrl) ^
+        const ListEquality().hash(tags);
+  }
 }
 
 class ProductTag {

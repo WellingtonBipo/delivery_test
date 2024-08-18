@@ -29,31 +29,31 @@ class TopOffersController extends ChangeNotifier {
     _notifyState = const ControllerStateLoading();
     try {
       final result = await _backEndConnector.getTopOffers();
-      _notifyState = result.fold(
-        onError: (e) => throw e,
-        onSuccess: (response) {
-          final offers = <TopOfferModel>[];
-          final offersJson = jsonDecode(response.body) as List;
-          for (final Map offerJson in offersJson) {
-            offers.add(
-              TopOfferModel(
-                title: offerJson['title'],
-                imageUrl: offerJson['image_url'],
-                buttonText: offerJson['button_text'],
-                header: offerJson['header'],
-                colorHex: offerJson['color_hex'],
-              ),
-            );
-          }
-          return ControllerStateSuccess(
-            offers,
-            transformData: (e) => e.toList(),
-          );
-        },
-      );
+      _notifyState = result.fold(onSuccess: _deserialize);
     } catch (e) {
-      print(e);
       _notifyState = ControllerStateError(e);
     }
   }
+}
+
+TopOffersControllerState _deserialize(
+  BackEndConnectorResponseSuccess response,
+) {
+  final offers = <TopOfferModel>[];
+  final offersJson = jsonDecode(response.body) as List;
+  for (final Map offerJson in offersJson) {
+    offers.add(
+      TopOfferModel(
+        title: offerJson['title'],
+        imageUrl: offerJson['image_url'],
+        buttonText: offerJson['button_text'],
+        header: offerJson['header'],
+        colorHex: offerJson['color_hex'],
+      ),
+    );
+  }
+  return ControllerStateSuccess(
+    offers,
+    transformData: (e) => e.toList(),
+  );
 }

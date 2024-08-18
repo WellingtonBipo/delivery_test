@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         title: 'Delivery',
         location: _selectedCity,
         onTapLocation: _onTapLocation,
-        onTapProfile: () => print('Profile'),
+        onTapProfile: () {},
       ),
       body: RefreshIndicator(
         onRefresh: () async => _loadInfos(),
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             _Title(
               title: "Today's Special",
               trailingText: 'See all',
-              onTapTrailing: () => print('See all'),
+              onTapTrailing: () {},
             ),
             const SizedBox(height: 10),
             const _Products(),
@@ -146,14 +146,14 @@ class _OrderCards extends StatelessWidget {
           Expanded(
             child: DSCardOrder(
               type: DSCardOrderType.orderAgain,
-              onTap: () => print('Order again'),
+              onTap: () {},
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: DSCardOrder(
               type: DSCardOrderType.localShop,
-              onTap: () => print('Local shop'),
+              onTap: () {},
             ),
           ),
         ],
@@ -180,15 +180,13 @@ class _Carousel extends StatelessWidget {
             buttonText: offer.buttonText,
             imageUrl: offer.imageUrl,
             colorBackground: offer.colorHex.toColorFromHex(),
-            onTapButton: () => print(offer.buttonText),
+            onTapButton: () {},
           );
         }).toList(),
     };
     return DSCarousel(
       padding: const EdgeInsets.symmetric(horizontal: HomePage.padding),
-      onTap: state is! ControllerStateSuccess
-          ? null
-          : (i) => print(state.data?[i].buttonText),
+      onTap: state is! ControllerStateSuccess ? null : (i) {},
       children: children,
     );
   }
@@ -211,7 +209,7 @@ class _CategoryList extends StatelessWidget {
           (category) => DSCardCategory(
             text: category.text,
             imageUrl: category.imageUrl,
-            onTap: () => print(category.text),
+            onTap: () {},
           ),
         ),
     };
